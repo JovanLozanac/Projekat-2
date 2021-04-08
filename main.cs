@@ -45,7 +45,7 @@ class MainClass
 			Console.WriteLine("Čestitamo! Vi ste naš prvi korisnik. Napravite nalog (1) ili izađite iz programa (2).");
 			do{
 				if(Console.ReadLine() == "1"){
-					NapraviNoviNalog();
+					NapraviPrviNalog();
 				}
 				else if (Console.ReadLine() == "2"){
 					Console.WriteLine("Hvala Vam što ste koristili naš program. Doviđenja!");
@@ -61,6 +61,9 @@ class MainClass
 		//napraviti metodu
 	}
 	public static void NapraviNoviNalog(){
+		//napraviti metodu
+	}
+	public static void NapraviPrviNalog(){
 		//napraviti metodu
 	}
   public static void Main () 
