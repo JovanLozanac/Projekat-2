@@ -32,7 +32,7 @@ class MainClass
 					UlogujSe();
 				}
 				else if (unos == "2"){
-					NapraviNoviNalog();
+					NapraviNalog();
 				}
 				else if (unos == "3"){
 					Console.WriteLine("Hvala Vam što ste koristili naš program. Doviđenja!");
@@ -48,7 +48,7 @@ class MainClass
 			do{
 				unos = Console.ReadLine();
 				if(unos == "1"){
-					NapraviPrviNalog();
+					UlogujSe();
 				}
 				else if (unos == "2"){
 					Console.WriteLine("Hvala Vam što ste koristili naš program. Doviđenja!");
@@ -63,17 +63,18 @@ class MainClass
 	public static void UlogujSe(){
 		//napraviti metodu
 	}
-	public static void NapraviNoviNalog(){
-		//napraviti metodu
-	}
-	public static void NapraviPrviNalog(){
+  
+	public static void NapraviNalog()
+  {
 		bool Uslov;
-		do{
+		do
+    {
 			Uslov = true;
 			Console.Clear();
 			Console.WriteLine("Upišite korisničko ime. Ono se sastoji samo iz slova engleske abecede.");
 			string username = Console.ReadLine();
-			while(username == "" || NisuSamoSlova(username)){
+			while(username == "" || NisuSamoSlova(username))
+      {
 				Console.WriteLine("Probajte ponovo.");
 				username = Console.ReadLine();
 			}
@@ -91,7 +92,7 @@ class MainClass
 				Console.WriteLine("Da li potvrđujete ove podatke? (1 - da, 2 - ne)");
 				unos = Console.ReadLine();
 				if(unos == "1"){
-					StreamWriter podaci = new StreamWriter ("korisnici.txt");
+					StreamWriter podaci = File.AppendText ("korisnici.txt");
 					podaci.WriteLine("username:{0}|password:{1}", DeSifruj(username, 1), DeSifruj(password, 1));
 					podaci.Close();
 					PocetniEkranILogovanje();
