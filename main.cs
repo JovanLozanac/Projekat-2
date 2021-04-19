@@ -48,7 +48,7 @@ class MainClass
 			do{
 				unos = Console.ReadLine();
 				if(unos == "1"){
-					UlogujSe();
+					NapraviNalog();
 				}
 				else if (unos == "2"){
 					Console.WriteLine("Hvala Vam što ste koristili naš program. Doviđenja!");
