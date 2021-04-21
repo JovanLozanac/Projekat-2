@@ -60,8 +60,39 @@ class MainClass
 			
 		}
 	}
-	public static void UlogujSe(){
-		//napraviti metodu
+	public static void UlogujSe()
+	{
+		Console.Clear();
+		Console.WriteLine("Upišite korisničko ime. Ono se sastoji samo iz slova engleske abecede.");
+		string username = Console.ReadLine();
+		while(username == "" || NisuSamoSlova(username))
+    {
+			Console.WriteLine("Probajte ponovo.");
+			username = Console.ReadLine();
+		}
+		Console.WriteLine("Upišite lozinku. Ona se sastoji samo iz slova engleske abecede.");
+		string password = Console.ReadLine();
+		while(password == "" || NisuSamoSlova(password))
+		{
+			Console.WriteLine("Probajte ponovo.");
+			password = Console.ReadLine();
+		}
+		string[] lines = System.IO.File.ReadAllLines("korisnici.txt");
+		string provera = "username:"+ DeSifruj(username,1)+"|password:"+ DeSifruj(password,1);
+		for(int i = 0; i<lines.Length; i++)
+		{
+			if(lines[i]==provera) Ulazak(username);
+		}
+		Console.Clear();
+		Console.WriteLine("Greška. Ovaj nalog ne postoji u sistemu ili su uneti pogrešni podaci.");
+		string unos;
+		do
+		{
+			Console.WriteLine("Probajte ponovo (1) ili se vratite na početni ekran (2).");
+			unos = Console.ReadLine();
+			if(unos == "1") UlogujSe();
+			else if(unos == "2") PocetniEkranILogovanje();
+		}while(unos != "1" && unos != "2");
 	}
   
 	public static void NapraviNalog()
@@ -128,6 +159,12 @@ class MainClass
 			if(!char.IsLetter(rec[i])) return true;
 		}
 		return false;
+	}
+	public static void Ulazak (string username){
+		//Ovo je ono sto se prikaze kad se korisnik uloguje u sistem.
+		Console.Clear();
+		Console.WriteLine("Dobrodošli, korisniče " + username + ". Napišite mejl (1), pogledajte svoje poslate (2) ili primljene (3) mejlove ili se odjavite (4).");
+		//dopuniti metodu
 	}
   public static void Main () 
   {
