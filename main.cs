@@ -2,7 +2,8 @@ using System;
 using System.IO;
 class MainClass
 {
-	public static void PocetniEkranILogovanje(){
+	public static void PocetniEkranILogovanje()
+  {
 		Console.Clear();
 		//Intro:
 		Console.WriteLine(@"         ______                     _      __                                  ____");
@@ -43,7 +44,8 @@ class MainClass
 			}while(unos != "1" && unos != "2" && unos != "3");
 			
 		}
-		else{
+		else
+    {
 			Console.WriteLine("Čestitamo! Vi ste naš prvi korisnik. Napravite nalog (1) ili izađite iz programa (2).");
 			do{
 				unos = Console.ReadLine();
@@ -116,7 +118,8 @@ class MainClass
 				password = Console.ReadLine();
 			}
 			string unos;
-			do{
+			do
+      {
 				Console.Clear();
 				Console.WriteLine("Korisničko ime: " + username);
 				Console.WriteLine("Lozinka: " + password);
@@ -134,7 +137,8 @@ class MainClass
 			}while(unos != "1" && unos != "2");
 		}while(!Uslov);
 	}
-	public static string DeSifruj (string rec, int smer){
+	public static string DeSifruj (string rec, int smer)
+  {
 		//smer = 1: sifruj rec
 		//smer = 2: DEsifruj rec
 		string slovaVelika = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -152,7 +156,8 @@ class MainClass
 		string NovaRec = new string(kodirana);
 		return NovaRec;
 	}
-	public static bool NisuSamoSlova(string rec){
+	public static bool NisuSamoSlova(string rec)
+  {
 		//false: samo su slova
 		//true: nisu samo slova
 		for(int i = 0; i<rec.Length; i++){
@@ -160,33 +165,88 @@ class MainClass
 		}
 		return false;
 	}
-	public static void Ulazak (string username){
+	public static void Ulazak (string username)
+  {
 		//Ovo je ono sto se prikaze kad se korisnik uloguje u sistem.
-		Console.Clear();
-		do{
-			Console.Clear();
-			Console.WriteLine("Dobrodošli, korisniče " + username + ". Napišite mejl (1), pogledajte svoje poslate (2) ili primljene (3) mejlove ili se odjavite (4).");
+		string unos;
+		do
+    {
+			
+			Console.WriteLine("Napišite mejl (1), pogledajte svoje poslate (2) ili primljene (3) mejlove ili se odjavite (4).");
 			unos = Console.ReadLine();
 			if(unos == "1"){
 				NapisiPoruku(username);
 			}
 			else if(unos == "2") {
 				string NazivFajla = username + "poslate.txt";
-				PregledPoslatih(NazivFajla);
+				PregledFajla(NazivFajla, username);
 			}
 			else if(unos == "3"){
 				string NazivFajla = username + "primljene.txt";
-				PregledPrimljenih(NazivFajla);
+				PregledFajla(NazivFajla, username);
 			}
-			else if (unos == 4) PocetniEkranILogovanje();
+			else if (unos == "4") PocetniEkranILogovanje();
 		}while(unos != "1" && unos != "2" && unos != "3" && unos != "4");
 		//dopuniti metodu
 	}
-	static void PregledPoslatih(string NazivFajla){
-		string[] lines = System.IO.File.ReadAllLines(NazivFajla);
+	static void NapisiPoruku(string username)
+	{
+		//napisi metodu
 	}
-	static void PregledPrimljenih(string NazivFajla){
-		string[] lines = System.IO.File.ReadAllLines(NazivFajla);
+	static void PregledFajla(string NazivFajla, string username)
+  {
+		//cita samo one linije sa naslovom poruke
+		if(!File.Exists(NazivFajla)) {
+			Console.WriteLine("Nemate primljenih ili poslatih poruka.");
+			Ulazak(username);
+		}
+		StreamReader fajl = new StreamReader (NazivFajla);
+		int[] BrojeviRedovaSaNaslovima = new int[100]; //ovo govori na kojim redovima su ispisane linije
+		int Brojac1 = -1;
+		int Brojac2 = -1;
+		while(!fajl.EndOfStream){
+			string[] trenutnired = fajl.ReadLine().Split('|');
+			Brojac2++;
+			if(trenutnired.Length == 3) {
+				Brojac1++;
+				Console.Write(" ");
+				if(trenutnired[0] == "0" && NazivFajla.Substring(NazivFajla.Length - 13) == "primljene.txt") Console.Write("NEPROČITANA: ");
+				Console.Write(trenutnired[1]); //ovo je naslov;
+				Console.Write(" ({0})", trenutnired[2]);
+				Console.WriteLine();
+				if(Brojac1 == BrojeviRedovaSaNaslovima.Length) Array.Resize (ref BrojeviRedovaSaNaslovima, BrojeviRedovaSaNaslovima.Length + 100);
+				BrojeviRedovaSaNaslovima[Brojac1] = Brojac2; //ovo govori da se naslov npr. 0. poruke nalazi na 7. redu u fajlu, sledece na 16. redu itd.
+			}
+		}
+		fajl.Close();
+		Console.WriteLine("Izaberite poruku koju želite prikazati, zatim pritisnite Enter. Pritisnite Esc ako želite da se odjavite.");
+		Array.Resize(ref BrojeviRedovaSaNaslovima, Brojac2+1);
+		//OVDE IDE KURSOR I IZBOR PORUKA
+		int KursorY = 0;
+		int BrojRedaPorukeKojuTrebaPrikazati = BrojeviRedovaSaNaslovima[KursorY];
+		ConsoleKeyInfo dugme;
+    do
+    {
+      Console.SetCursorPosition(0, KursorY);
+      dugme = Console.ReadKey(true);
+      if (dugme.Key == ConsoleKey.UpArrow && KursorY != 0) 
+			{
+				KursorY--;
+				BrojRedaPorukeKojuTrebaPrikazati = BrojeviRedovaSaNaslovima[KursorY];
+			}
+      else if (dugme.Key == ConsoleKey.DownArrow && BrojRedaPorukeKojuTrebaPrikazati != BrojeviRedovaSaNaslovima[BrojeviRedovaSaNaslovima.Length-1]) 
+			{
+				KursorY++;
+				BrojRedaPorukeKojuTrebaPrikazati = BrojeviRedovaSaNaslovima[KursorY];
+			}
+			else if (dugme.Key == ConsoleKey.Escape) PocetniEkranILogovanje();
+    }while (dugme.Key != ConsoleKey.Enter);
+		//OVDE POZIVA SE METODA ZA ISPIS SELEKTOVANE PORUKE
+		UcitajPoruku(NazivFajla, KursorY);
+		//jer je KursorY broj reda sa naslovom poruke
+	}
+	public static void UcitajPoruku (string NazivFajla, int KursorY){
+
 	}
   public static void Main () 
   {

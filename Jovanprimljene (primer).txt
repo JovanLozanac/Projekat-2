@@ -1,0 +1,14 @@
+0(ovo znaci neprocitano)|ovde ide naslov poruke(sifrovan naslov)|ovde ide vreme slanja (sifrovano)
+pocetak poruke:
+
+
+
+
+kraj poruke
+1(znaci procitano)|ovde ide naslov (sifrovan)|ovde ide vreme(sifrovano)
+pocetak poruke:
+
+
+
+
+kraj poruke
