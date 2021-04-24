@@ -163,8 +163,30 @@ class MainClass
 	public static void Ulazak (string username){
 		//Ovo je ono sto se prikaze kad se korisnik uloguje u sistem.
 		Console.Clear();
-		Console.WriteLine("Dobrodošli, korisniče " + username + ". Napišite mejl (1), pogledajte svoje poslate (2) ili primljene (3) mejlove ili se odjavite (4).");
+		do{
+			Console.Clear();
+			Console.WriteLine("Dobrodošli, korisniče " + username + ". Napišite mejl (1), pogledajte svoje poslate (2) ili primljene (3) mejlove ili se odjavite (4).");
+			unos = Console.ReadLine();
+			if(unos == "1"){
+				NapisiPoruku(username);
+			}
+			else if(unos == "2") {
+				string NazivFajla = username + "poslate.txt";
+				PregledPoslatih(NazivFajla);
+			}
+			else if(unos == "3"){
+				string NazivFajla = username + "primljene.txt";
+				PregledPrimljenih(NazivFajla);
+			}
+			else if (unos == 4) PocetniEkranILogovanje();
+		}while(unos != "1" && unos != "2" && unos != "3" && unos != "4");
 		//dopuniti metodu
+	}
+	static void PregledPoslatih(string NazivFajla);{
+		//napisati metodu
+	}
+	static void PregledPrimljenih(string NazivFajla);{
+		//napisati metodu
 	}
   public static void Main () 
   {
