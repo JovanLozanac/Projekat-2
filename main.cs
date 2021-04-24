@@ -182,11 +182,11 @@ class MainClass
 		}while(unos != "1" && unos != "2" && unos != "3" && unos != "4");
 		//dopuniti metodu
 	}
-	static void PregledPoslatih(string NazivFajla);{
-		//napisati metodu
+	static void PregledPoslatih(string NazivFajla){
+		string[] lines = System.IO.File.ReadAllLines(NazivFajla);
 	}
-	static void PregledPrimljenih(string NazivFajla);{
-		//napisati metodu
+	static void PregledPrimljenih(string NazivFajla){
+		string[] lines = System.IO.File.ReadAllLines(NazivFajla);
 	}
   public static void Main () 
   {
