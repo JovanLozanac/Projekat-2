@@ -361,10 +361,10 @@ class MainClass
 			else if (dugme.Key == ConsoleKey.Escape) PocetniEkranILogovanje();
     }while (dugme.Key != ConsoleKey.Enter);
 		//OVDE POZIVA SE METODA ZA ISPIS SELEKTOVANE PORUKE
-		UcitajPoruku(NazivFajla, BrojRedaPorukeKojuTrebaPrikazati);
+		UcitajPoruku(NazivFajla, username,  BrojRedaPorukeKojuTrebaPrikazati);
 		//jer je KursorY broj reda sa naslovom poruke
 	}
-	public static void UcitajPoruku (string NazivFajla, int BrojRedaPorukeKojuTrebaPrikazati){
+	public static void UcitajPoruku (string NazivFajla, string username, int BrojRedaPorukeKojuTrebaPrikazati){
 		Console.Clear();
 		StreamReader fajl = new StreamReader (NazivFajla);
 		int trazenRed = BrojRedaPorukeKojuTrebaPrikazati+1;
@@ -380,16 +380,17 @@ class MainClass
 		string[] ispis = System.IO.File.ReadAllLines(NazivFajla);
 		ispis[BrojRedaPorukeKojuTrebaPrikazati] = upis1;
 		System.IO.File.WriteAllLines(NazivFajla, ispis);
-		Console.WriteLine(upis1);
-	  Console.WriteLine(upis2);
-		Console.WriteLine(upis3);
+		string[] podeljen = upis1.Split('|');
+		Console.WriteLine("Naslov: " + DeSifruj(podeljen[1],2));
+		Console.WriteLine("Posiljalac: " + DeSifruj(upis2.Substring(4), 2));
+		Console.WriteLine(DeSifruj(upis3,2));
 		Console.WriteLine("Pritisnite Enter da biste se vratili na izbor ili Esc da se odjavite.");
 		ConsoleKeyInfo dugme;
 		do{
 			dugme = Console.ReadKey();
-			if(dugme == Esc) PocetniEkranILogovanje();
-			if(dugme == Enter) Ulazak()
-		}
+			if(dugme.Key == ConsoleKey.Escape) PocetniEkranILogovanje();
+			if(dugme.Key == ConsoleKey.Enter) Ulazak(username);
+		} while (dugme.Key != ConsoleKey.Escape && dugme.Key != ConsoleKey.Enter);
 	}
   public static void Main () 
   {
