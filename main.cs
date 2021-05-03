@@ -330,7 +330,7 @@ class MainClass
 		}
 		fajl.Close();
 		Console.WriteLine("Izaberite poruku koju želite prikazati, zatim pritisnite Enter. Pritisnite Esc ako želite da se odjavite.");
-		Array.Resize(ref BrojeviRedovaSaNaslovima, Brojac2+1);
+		Array.Resize(ref BrojeviRedovaSaNaslovima, Brojac1+1);
 		//OVDE IDE KURSOR I IZBOR PORUKA
 		int KursorY = 0;
 		int BrojRedaPorukeKojuTrebaPrikazati = BrojeviRedovaSaNaslovima[KursorY];
@@ -355,7 +355,7 @@ class MainClass
 		UcitajPoruku(NazivFajla, BrojRedaPorukeKojuTrebaPrikazati);
 		//jer je KursorY broj reda sa naslovom poruke
 	}
-	public static void UcitajPoruku (string NazivFajla, int KursorY){
+	public static void UcitajPoruku (string NazivFajla, int BrojRedaPorukeKojuTrebaPrikazati){
 
 	}
   public static void Main () 
