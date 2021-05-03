@@ -80,7 +80,7 @@ class MainClass
       this.primalac = Primalac;
       this.posiljalac = Posiljalac;
     }
-    public void Ispisi()
+    public void Upisi()
     {
       for(int i = 0; i < 2; i++)
       {
@@ -168,7 +168,8 @@ class MainClass
 				bool PostojiLiUser = false;
 				string Provera = "username:" + DeSifruj(username, 1);
 				StreamReader podaci = new StreamReader("korisnici.txt");
-				while(!podaci.EndOfStream){
+				while(!podaci.EndOfStream)
+        {
 					string probni = podaci.ReadLine();
 					if(probni.Substring(0, Provera.Length) == Provera) PostojiLiUser = true;
 				}
@@ -176,7 +177,8 @@ class MainClass
 					Console.WriteLine("Greška. Već postoji korisnik sa istim imenom. Probajte ponovo.");
 					podaci.Close();
 					NapraviNalog();
-				} 
+				}
+				podaci.Close();
 				Console.WriteLine("Da li potvrđujete ove podatke? (1 - da, 2 - ne)");
 				unos = Console.ReadLine();
 				if(unos == "1"){
@@ -225,7 +227,6 @@ class MainClass
 		string unos;
 		do
     {
-			
 			Console.WriteLine("Napišite mejl (1), pogledajte svoje poslate (2) ili primljene (3) mejlove ili se odjavite (4).");
 			unos = Console.ReadLine();
 			if(unos == "1"){
@@ -248,6 +249,22 @@ class MainClass
   {
     Console.WriteLine("Kome saljete poruku: ");
     string primac = Console.ReadLine();
+    bool PostojiLiUser = false;
+    while(!PostojiLiUser)
+    {
+      string Provera = "username:" + DeSifruj(korisnik, 1);
+      StreamReader podaci = new StreamReader("korisnici.txt");
+      while(!podaci.EndOfStream)
+      {
+        string probni = podaci.ReadLine();
+        if(probni.Substring(0, Provera.Length) == Provera) PostojiLiUser = true;
+      }
+      if(!PostojiLiUser)
+      {
+        Console.WriteLine("Korisnik ne postoji, unesite ponovo: ");
+        primac = Console.ReadLine();
+      }
+    }
     Console.Write("Naslov: ");
     string naslov = Console.ReadLine();
     TimeZoneInfo localZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Belgrade");
@@ -263,6 +280,7 @@ class MainClass
     Console.Write("Telo: ");
     string telo = Console.ReadLine();
     Poruka poruka = new Poruka(naslov, telo, localTimeNow, primac, korisnik);
+		poruka.Upisi();
     return poruka;
   }
 
