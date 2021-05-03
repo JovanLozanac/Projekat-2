@@ -384,7 +384,9 @@ class MainClass
 	  Console.WriteLine(upis2);
 		Console.WriteLine(upis3);
 		Console.WriteLine("Pritisnite Enter da biste se vratili na izbor ili Esc da se odjavite.");
-
+		do{
+			Console.
+		}
 	}
   public static void Main () 
   {
