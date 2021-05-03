@@ -87,17 +87,17 @@ class MainClass
         if(i == 1)
         {
           StreamWriter IzlazniFajl = File.AppendText (this.primalac + "primljene.txt");
-          IzlazniFajl.WriteLine(this.naslov + "\t" + "\t" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
-          IzlazniFajl.WriteLine("Od: " + this.posiljalac + "\n");
-          IzlazniFajl.WriteLine(this.telo + "\n");
+          IzlazniFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+          IzlazniFajl.WriteLine("Od: " + DeSifruj(this.posiljalac, 1));
+					IzlazniFajl.WriteLine(DeSifruj(this.telo, 1));
           IzlazniFajl.Close();
         }
         else
         {
           StreamWriter IzlazniFajl = File.AppendText (this.posiljalac + "poslate.txt");
-          IzlazniFajl.WriteLine(this.naslov + "\t" + "\t" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
-          IzlazniFajl.WriteLine("Ka: " + this.primalac + "\n");
-          IzlazniFajl.WriteLine(this.telo + "\n");
+          IzlazniFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+          IzlazniFajl.WriteLine("Ka: " + DeSifruj(this.posiljalac, 1));
+          IzlazniFajl.WriteLine(DeSifruj(this.telo, 1));
           IzlazniFajl.Close();
         }
       }
@@ -163,22 +163,25 @@ class MainClass
 			do
       {
 				Console.Clear();
+				if(File.Exists("korisnici.txt")){
+					bool PostojiLiUser = false;
+					string Provera = "username:" + DeSifruj(username, 1);
+					StreamReader podaci = new StreamReader("korisnici.txt");
+					while(!podaci.EndOfStream)
+					{
+						string probni = podaci.ReadLine();
+						if(probni.Substring(0, Provera.Length) == Provera) PostojiLiUser = true;
+					}
+					if(PostojiLiUser){
+						Console.WriteLine("Greška. Već postoji korisnik sa istim imenom. Probajte ponovo.");
+						podaci.Close();
+						NapraviNalog();
+					}
+					podaci.Close();
+				}
+				
 				Console.WriteLine("Korisničko ime: " + username);
 				Console.WriteLine("Lozinka: " + password);
-				bool PostojiLiUser = false;
-				string Provera = "username:" + DeSifruj(username, 1);
-				StreamReader podaci = new StreamReader("korisnici.txt");
-				while(!podaci.EndOfStream)
-        {
-					string probni = podaci.ReadLine();
-					if(probni.Substring(0, Provera.Length) == Provera) PostojiLiUser = true;
-				}
-				if(PostojiLiUser){
-					Console.WriteLine("Greška. Već postoji korisnik sa istim imenom. Probajte ponovo.");
-					podaci.Close();
-					NapraviNalog();
-				}
-				podaci.Close();
 				Console.WriteLine("Da li potvrđujete ove podatke? (1 - da, 2 - ne)");
 				unos = Console.ReadLine();
 				if(unos == "1"){
@@ -231,6 +234,7 @@ class MainClass
 			unos = Console.ReadLine();
 			if(unos == "1"){
 				PisanjeMejla(username);
+				Ulazak(username);
 			}
 			else if(unos == "2") {
 				string NazivFajla = username + "poslate.txt";
@@ -295,6 +299,7 @@ class MainClass
 		int[] BrojeviRedovaSaNaslovima = new int[100]; //ovo govori na kojim redovima su ispisane linije
 		int Brojac1 = -1;
 		int Brojac2 = -1;
+		Console.Clear();
 		while(!fajl.EndOfStream){
 			string[] trenutnired = fajl.ReadLine().Split('|');
 			Brojac2++;
@@ -302,7 +307,7 @@ class MainClass
 				Brojac1++;
 				Console.Write(" ");
 				if(trenutnired[0] == "0" && NazivFajla.Substring(NazivFajla.Length - 13) == "primljene.txt") Console.Write("NEPROČITANA: ");
-				Console.Write(trenutnired[1]); //ovo je naslov;
+				Console.Write(DeSifruj(trenutnired[1],2)); //ovo je naslov;
 				Console.Write(" ({0})", trenutnired[2]);
 				Console.WriteLine();
 				if(Brojac1 == BrojeviRedovaSaNaslovima.Length) Array.Resize (ref BrojeviRedovaSaNaslovima, BrojeviRedovaSaNaslovima.Length + 100);
