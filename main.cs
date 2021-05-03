@@ -80,13 +80,27 @@ class MainClass
       this.primalac = Primalac;
       this.posiljalac = Posiljalac;
     }
-    public void Ispisi(string izlaz)
+    public void Ispisi()
     {
-      StreamWriter IzlazniFajl = new StreamWriter(izlaz);
-      IzlazniFajl.WriteLine("Naslov: " + this.naslov + "\t" + "\t" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
-      IzlazniFajl.WriteLine("Od: " + this.posiljalac + "\n");
-      IzlazniFajl.WriteLine(this.telo);
-      IzlazniFajl.Close();
+      for(int i = 0; i < 2; i++)
+      {
+        if(i == 1)
+        {
+          StreamWriter IzlazniFajl = File.AppendText (this.primalac + "primljene.txt");
+          IzlazniFajl.WriteLine(this.naslov + "\t" + "\t" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+          IzlazniFajl.WriteLine("Od: " + this.posiljalac + "\n");
+          IzlazniFajl.WriteLine(this.telo + "\n");
+          IzlazniFajl.Close();
+        }
+        else
+        {
+          StreamWriter IzlazniFajl = File.AppendText (this.posiljalac + "poslate.txt");
+          IzlazniFajl.WriteLine(this.naslov + "\t" + "\t" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+          IzlazniFajl.WriteLine("Ka: " + this.primalac + "\n");
+          IzlazniFajl.WriteLine(this.telo + "\n");
+          IzlazniFajl.Close();
+        }
+      }
     }
   }
 
@@ -220,6 +234,8 @@ class MainClass
 
 	public static Poruka PisanjeMejla(string korisnik)
   {
+    Console.WriteLine("Kome saljete poruku: ");
+    string primac = Console.ReadLine();
     Console.Write("Naslov: ");
     string naslov = Console.ReadLine();
     TimeZoneInfo localZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Belgrade");
@@ -234,10 +250,10 @@ class MainClass
     }
     Console.Write("Telo: ");
     string telo = Console.ReadLine();
-    Poruka poruka = new Poruka(naslov, telo, localTimeNow, korisnik, "2");
+    Poruka poruka = new Poruka(naslov, telo, localTimeNow, primac, korisnik);
     return poruka;
   }
-  
+
 	static void PregledFajla(string NazivFajla, string username)
   {
 		//cita samo one linije sa naslovom poruke
