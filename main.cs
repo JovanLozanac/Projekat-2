@@ -8,6 +8,7 @@ class MainClass
   {
 		Console.Clear();
 		//Intro:
+		Console.WriteLine(desifruj("Jovan"));
 		Console.WriteLine(@"         ______                     _      __                                  ____");
 		Console.WriteLine(@"        |      |                   / \    /  \                                |    |");
 		Console.WriteLine(@"        |      |                  /   \  /    \                         ____  |    |");
@@ -196,7 +197,7 @@ class MainClass
 			}while(unos != "1" && unos != "2");
 		}while(!Uslov);
 	}
-
+	///*
 	public static string DeSifruj (string rec, int smer)
   {
 		//smer = 1: sifruj rec
@@ -216,19 +217,27 @@ class MainClass
 		string NovaRec = new string(kodirana);
 		return NovaRec;
 	}
-	/*
-	public static string DeSifruj (string rec, int smer)
+	//*/
+	public static string sifruj(string s)
   {
-    //int n = s.Length;
-    string novi= "";
-    for(int i=0;i<rec.Length;i++)
+    int n=s.Length;
+    string novi="";
+    for(int i=0;i<s.Length;i++)
     {
-      if(smer == 1) novi += (char)(rec[i]-'a'+3);
-			else novi += (char)(rec[i]-'a'+3);
+      novi+=(char)(s[i]-'a'+3);
     }
     return novi;
   }
-	*/
+  public static string desifruj(string s)
+  {
+    int n=s.Length;
+    string novi="";
+    for(int i=0;i<s.Length;i++)
+    {
+      novi+=(char)(s[i]-'a'-3);
+    }
+    return novi;
+  }
 	public static bool NisuSamoSlova(string rec)
   {
 		//false: samo su slova
@@ -356,6 +365,25 @@ class MainClass
 		//jer je KursorY broj reda sa naslovom poruke
 	}
 	public static void UcitajPoruku (string NazivFajla, int BrojRedaPorukeKojuTrebaPrikazati){
+		Console.Clear();
+		StreamReader fajl = new StreamReader (NazivFajla);
+		int trazenRed = BrojRedaPorukeKojuTrebaPrikazati+1;
+		int i = 1;
+		while(i != trazenRed){
+			i++;
+		}
+		string upis1 = fajl.ReadLine();
+		string upis2 = fajl.ReadLine();
+		string upis3 = fajl.ReadLine();
+		upis1 = "1" + upis1.Substring(1);
+		fajl.Close();
+		string[] ispis = System.IO.File.ReadAllLines(NazivFajla);
+		ispis[BrojRedaPorukeKojuTrebaPrikazati] = upis1;
+		System.IO.File.WriteAllLines(NazivFajla, ispis);
+		Console.WriteLine(upis1);
+	  Console.WriteLine(upis2);
+		Console.WriteLine(upis3);
+		Console.WriteLine("Pritisnite Enter da biste se vratili na izbor ili Esc da se odjavite.");
 
 	}
   public static void Main () 
