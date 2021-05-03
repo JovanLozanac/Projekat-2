@@ -196,6 +196,7 @@ class MainClass
 			}while(unos != "1" && unos != "2");
 		}while(!Uslov);
 	}
+
 	public static string DeSifruj (string rec, int smer)
   {
 		//smer = 1: sifruj rec
@@ -215,6 +216,19 @@ class MainClass
 		string NovaRec = new string(kodirana);
 		return NovaRec;
 	}
+	/*
+	public static string DeSifruj (string rec, int smer)
+  {
+    //int n = s.Length;
+    string novi= "";
+    for(int i=0;i<rec.Length;i++)
+    {
+      if(smer == 1) novi += (char)(rec[i]-'a'+3);
+			else novi += (char)(rec[i]-'a'+3);
+    }
+    return novi;
+  }
+	*/
 	public static bool NisuSamoSlova(string rec)
   {
 		//false: samo su slova
@@ -297,8 +311,8 @@ class MainClass
 		}
 		StreamReader fajl = new StreamReader (NazivFajla);
 		int[] BrojeviRedovaSaNaslovima = new int[100]; //ovo govori na kojim redovima su ispisane linije
-		int Brojac1 = -1;
-		int Brojac2 = -1;
+		int Brojac1 = -1; //broji indeks niza
+		int Brojac2 = -1; //broji liniju u fajlu
 		Console.Clear();
 		while(!fajl.EndOfStream){
 			string[] trenutnired = fajl.ReadLine().Split('|');
@@ -330,7 +344,7 @@ class MainClass
 				KursorY--;
 				BrojRedaPorukeKojuTrebaPrikazati = BrojeviRedovaSaNaslovima[KursorY];
 			}
-      else if (dugme.Key == ConsoleKey.DownArrow && BrojRedaPorukeKojuTrebaPrikazati != BrojeviRedovaSaNaslovima[BrojeviRedovaSaNaslovima.Length-1]) 
+      else if (dugme.Key == ConsoleKey.DownArrow && KursorY != BrojeviRedovaSaNaslovima.Length - 1) 
 			{
 				KursorY++;
 				BrojRedaPorukeKojuTrebaPrikazati = BrojeviRedovaSaNaslovima[KursorY];
@@ -338,7 +352,7 @@ class MainClass
 			else if (dugme.Key == ConsoleKey.Escape) PocetniEkranILogovanje();
     }while (dugme.Key != ConsoleKey.Enter);
 		//OVDE POZIVA SE METODA ZA ISPIS SELEKTOVANE PORUKE
-		UcitajPoruku(NazivFajla, KursorY);
+		UcitajPoruku(NazivFajla, BrojRedaPorukeKojuTrebaPrikazati);
 		//jer je KursorY broj reda sa naslovom poruke
 	}
 	public static void UcitajPoruku (string NazivFajla, int KursorY){
