@@ -165,12 +165,24 @@ class MainClass
 				Console.Clear();
 				Console.WriteLine("Korisničko ime: " + username);
 				Console.WriteLine("Lozinka: " + password);
+				bool PostojiLiUser = false;
+				string Provera = "username:" + DeSifruj(username, 1);
+				StreamReader podaci = new StreamReader("korisnici.txt");
+				while(!podaci.EndOfStream){
+					string probni = podaci.ReadLine();
+					if(probni.Substring(0, Provera.Length) == Provera) PostojiLiUser = true;
+				}
+				if(PostojiLiUser){
+					Console.WriteLine("Greška. Već postoji korisnik sa istim imenom. Probajte ponovo.");
+					podaci.Close();
+					NapraviNalog();
+				} 
 				Console.WriteLine("Da li potvrđujete ove podatke? (1 - da, 2 - ne)");
 				unos = Console.ReadLine();
 				if(unos == "1"){
-					StreamWriter podaci = File.AppendText ("korisnici.txt");
-					podaci.WriteLine("username:{0}|password:{1}", DeSifruj(username, 1), DeSifruj(password, 1));
-					podaci.Close();
+					StreamWriter novipodaci = File.AppendText ("korisnici.txt");
+					novipodaci.WriteLine("username:{0}|password:{1}", DeSifruj(username, 1), DeSifruj(password, 1));
+					novipodaci.Close();
 					PocetniEkranILogovanje();
 				}
 				else if(unos == "2") {
@@ -217,7 +229,7 @@ class MainClass
 			Console.WriteLine("Napišite mejl (1), pogledajte svoje poslate (2) ili primljene (3) mejlove ili se odjavite (4).");
 			unos = Console.ReadLine();
 			if(unos == "1"){
-				NapisiPoruku(username);
+				PisanjeMejla(username);
 			}
 			else if(unos == "2") {
 				string NazivFajla = username + "poslate.txt";
