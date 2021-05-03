@@ -384,8 +384,11 @@ class MainClass
 	  Console.WriteLine(upis2);
 		Console.WriteLine(upis3);
 		Console.WriteLine("Pritisnite Enter da biste se vratili na izbor ili Esc da se odjavite.");
+		ConsoleKeyInfo dugme;
 		do{
-			Console.
+			dugme = Console.ReadKey();
+			if(dugme == Esc) PocetniEkranILogovanje();
+			if(dugme == Enter) Ulazak()
 		}
 	}
   public static void Main () 
