@@ -8,7 +8,6 @@ class MainClass
   {
 		Console.Clear();
 		//Intro:
-		Console.WriteLine(desifruj("Jovan"));
 		Console.WriteLine(@"         ______                     _      __                                  ____");
 		Console.WriteLine(@"        |      |                   / \    /  \                                |    |");
 		Console.WriteLine(@"        |      |                  /   \  /    \                         ____  |    |");
@@ -40,7 +39,10 @@ class MainClass
 				}
 				else if (unos == "3"){
 					Console.Clear();
-					Console.WriteLine("Hvala Vam što ste koristili naš program. Doviđenja!");
+					Console.WriteLine("Hvala Vam što ste koristili naš program.");
+					Console.WriteLine("Programeri: Jovan Lozanac, Mihajlo Đurić, Luka Đurović");
+					Console.WriteLine("april - maj 2021.");
+					Console.WriteLine("Doviđenja!");
 					System.Environment.Exit(0);
 				}
 				else {
@@ -58,7 +60,12 @@ class MainClass
 					NapraviNalog();
 				}
 				else if (unos == "2"){
-					Console.WriteLine("Hvala Vam što ste koristili naš program. Doviđenja!");
+					Console.Clear();
+					Console.WriteLine("Hvala Vam što ste koristili naš program.");
+					Console.WriteLine("Programeri: Jovan Lozanac, Mihajlo Đurić, Luka Đurović");
+					Console.WriteLine("april - maj 2021.");
+					Console.WriteLine("Doviđenja!");
+					System.Environment.Exit(0);
 				}
 				else {
 					Console.WriteLine("Molimo Vas, ponovite unos.");
@@ -204,34 +211,17 @@ class MainClass
 		if (smer == 2) pomak *= -1;
 		for (int i = 0; i < rec.Length; i++){
 			char trenutnoslovo = rec[i];
-			char maloslovo = char.ToLower(trenutnoslovo);
-			if(trenutnoslovo.CompareTo(maloslovo) == 0) kodirana[i] = slovaMala[(26 + (slovaMala.IndexOf(rec[i]) + pomak)) % 26];
-			else kodirana[i] = slovaVelika[(26 + (slovaVelika.IndexOf(rec[i]) + pomak)) % 26];
+			if(!Char.IsLetter(trenutnoslovo)) kodirana[i] = trenutnoslovo;
+			else{
+				char maloslovo = char.ToLower(trenutnoslovo);
+				if(trenutnoslovo.CompareTo(maloslovo) == 0) kodirana[i] = slovaMala[(26 + (slovaMala.IndexOf(rec[i]) + pomak)) % 26];
+				else kodirana[i] = slovaVelika[(26 + (slovaVelika.IndexOf(rec[i]) + pomak)) % 26];
+			}
 		}
 		string NovaRec = new string(kodirana);
 		return NovaRec;
 	}
 	
-	public static string sifruj(string s)
-  {
-    int n=s.Length;
-    string novi="";
-    for(int i=0;i<s.Length;i++)
-    {
-      novi+=(char)(s[i]-'a'+3);
-    }
-    return novi;
-  }
-  public static string desifruj(string s)
-  {
-    int n=s.Length;
-    string novi="";
-    for(int i=0;i<s.Length;i++)
-    {
-      novi+=(char)(s[i]-'a'-3);
-    }
-    return novi;
-  }
 	public static bool NisuSamoSlova(string rec)
   {
 		//false: samo su slova
@@ -269,11 +259,12 @@ class MainClass
 	public static Poruka PisanjeMejla(string korisnik)
   {
     Console.WriteLine("Kome saljete poruku: ");
-    string primac = Console.ReadLine();
+		string primac = Console.ReadLine();
+
     bool PostojiLiUser = false;
     while(!PostojiLiUser)
     {
-      string Provera = "username:" + DeSifruj(korisnik, 1);
+      string Provera = "username:" + DeSifruj(primac, 1);
       StreamReader podaci = new StreamReader("korisnici.txt");
       while(!podaci.EndOfStream)
       {
