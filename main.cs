@@ -39,7 +39,9 @@ class MainClass
 					NapraviNalog();
 				}
 				else if (unos == "3"){
+					Console.Clear();
 					Console.WriteLine("Hvala Vam što ste koristili naš program. Doviđenja!");
+					System.Environment.Exit(0);
 				}
 				else {
 					Console.WriteLine("Molimo Vas, ponovite unos.");
@@ -83,25 +85,17 @@ class MainClass
     }
     public void Upisi()
     {
-      for(int i = 0; i < 2; i++)
-      {
-        if(i == 1)
-        {
-          StreamWriter IzlazniFajl = File.AppendText (this.primalac + "primljene.txt");
-          IzlazniFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
-          IzlazniFajl.WriteLine("Od: " + DeSifruj(this.posiljalac, 1));
-					IzlazniFajl.WriteLine(DeSifruj(this.telo, 1));
-          IzlazniFajl.Close();
-        }
-        else
-        {
-          StreamWriter IzlazniFajl = File.AppendText (this.posiljalac + "poslate.txt");
-          IzlazniFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
-          IzlazniFajl.WriteLine("Ka: " + DeSifruj(this.posiljalac, 1));
-          IzlazniFajl.WriteLine(DeSifruj(this.telo, 1));
-          IzlazniFajl.Close();
-        }
-      }
+			StreamWriter IzlazniFajl = File.AppendText (this.primalac + "primljene.txt");
+      IzlazniFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+      IzlazniFajl.WriteLine("Od: " + DeSifruj(this.posiljalac, 1));
+			IzlazniFajl.WriteLine(DeSifruj(this.telo, 1));
+      IzlazniFajl.Close();
+			
+			StreamWriter IzlazniFajl2 = File.AppendText (this.posiljalac + "poslate.txt");
+      IzlazniFajl2.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+      IzlazniFajl2.WriteLine("Ka: " + DeSifruj(this.posiljalac, 1));
+      IzlazniFajl2.WriteLine(DeSifruj(this.telo, 1));
+      IzlazniFajl2.Close();
     }
   }
 
@@ -197,7 +191,7 @@ class MainClass
 			}while(unos != "1" && unos != "2");
 		}while(!Uslov);
 	}
-	///*
+	
 	public static string DeSifruj (string rec, int smer)
   {
 		//smer = 1: sifruj rec
@@ -217,7 +211,7 @@ class MainClass
 		string NovaRec = new string(kodirana);
 		return NovaRec;
 	}
-	//*/
+	
 	public static string sifruj(string s)
   {
     int n=s.Length;
@@ -369,10 +363,12 @@ class MainClass
 		StreamReader fajl = new StreamReader (NazivFajla);
 		int trazenRed = BrojRedaPorukeKojuTrebaPrikazati+1;
 		int i = 1;
+		string upis1;
 		while(i != trazenRed){
 			i++;
+			upis1 = fajl.ReadLine();
 		}
-		string upis1 = fajl.ReadLine();
+		upis1 = fajl.ReadLine();
 		string upis2 = fajl.ReadLine();
 		string upis3 = fajl.ReadLine();
 		upis1 = "1" + upis1.Substring(1);
