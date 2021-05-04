@@ -111,7 +111,7 @@ class MainClass
 			
 			StreamWriter PoslateFajl = File.AppendText (this.posiljalac + "poslate.txt");
       PoslateFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
-      PoslateFajl.WriteLine("Ka: " + DeSifruj(this.posiljalac, 1));
+      PoslateFajl.WriteLine("Ka: " + DeSifruj(this.primalac, 1));
       PoslateFajl.WriteLine(DeSifruj(this.telo, 1));
       PoslateFajl.Close();
     }
