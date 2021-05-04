@@ -417,7 +417,7 @@ class MainClass
 		System.IO.File.WriteAllLines(NazivFajla, ispis);
 		string[] podeljen = upis1.Split('|');
 		Console.WriteLine("Naslov: " + DeSifruj(podeljen[1],2));
-		Console.WriteLine("Pošiljalac: " + DeSifruj(upis2.Substring(4), 2));
+		Console.WriteLine("Primalac/Pošiljalac: " + DeSifruj(upis2.Substring(4), 2));
 		Console.WriteLine(DeSifruj(upis3, 2));
 
 		Console.WriteLine("Pritisnite Enter da biste se vratili na izbor ili Esc da se odjavite.");
