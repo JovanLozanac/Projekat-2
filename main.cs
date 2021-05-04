@@ -8,6 +8,7 @@ class MainClass
   {
 		Console.Clear();
 		//Intro:
+		Console.WriteLine("Test");
 		Console.WriteLine(@"         ______                     _      __                                  ____");
 		Console.WriteLine(@"        |      |                   / \    /  \                                |    |");
 		Console.WriteLine(@"        |      |                  /   \  /    \                         ____  |    |");
