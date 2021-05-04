@@ -8,7 +8,6 @@ class MainClass
   {
 		Console.Clear();
 		//Intro:
-		Console.WriteLine("Test");
 		Console.WriteLine(@"         ______                     _      __                                  ____");
 		Console.WriteLine(@"        |      |                   / \    /  \                                |    |");
 		Console.WriteLine(@"        |      |                  /   \  /    \                         ____  |    |");
@@ -28,17 +27,22 @@ class MainClass
 		//Provera i logovanje:
 		string nazivFajla = "korisnici.txt";
 		string unos;
-		if(File.Exists(nazivFajla)){
+		if(File.Exists(nazivFajla))
+		{
 			Console.WriteLine("Dobrodošli! Ulogujte se (1), napravite novi nalog (2) ili izađite iz programa (3)");
-			do{
+			do
+			{
 				unos = Console.ReadLine();
-				if(unos == "1"){
+				if(unos == "1")
+				{
 					UlogujSe();
 				}
-				else if (unos == "2"){
+				else if (unos == "2")
+				{
 					NapraviNalog();
 				}
-				else if (unos == "3"){
+				else if (unos == "3")
+				{
 					Console.Clear();
 					Console.WriteLine("Hvala Vam što ste koristili naš program.");
 					Console.WriteLine("Programeri: Jovan Lozanac, Mihajlo Đurić, Luka Đurović");
@@ -46,21 +50,26 @@ class MainClass
 					Console.WriteLine("Doviđenja!");
 					System.Environment.Exit(0);
 				}
-				else {
+				else 
+				{
 					Console.WriteLine("Molimo Vas, ponovite unos.");
 				}
-			}while(unos != "1" && unos != "2" && unos != "3");
+			}
+			while(unos != "1" && unos != "2" && unos != "3");
 			
 		}
 		else
     {
 			Console.WriteLine("Čestitamo! Vi ste naš prvi korisnik. Napravite nalog (1) ili izađite iz programa (2).");
-			do{
+			do
+			{
 				unos = Console.ReadLine();
-				if(unos == "1"){
+				if(unos == "1")
+				{
 					NapraviNalog();
 				}
-				else if (unos == "2"){
+				else if (unos == "2")
+				{
 					Console.Clear();
 					Console.WriteLine("Hvala Vam što ste koristili naš program.");
 					Console.WriteLine("Programeri: Jovan Lozanac, Mihajlo Đurić, Luka Đurović");
@@ -68,11 +77,12 @@ class MainClass
 					Console.WriteLine("Doviđenja!");
 					System.Environment.Exit(0);
 				}
-				else {
+				else 
+				{
 					Console.WriteLine("Molimo Vas, ponovite unos.");
 				}
-			}while(unos != "1" && unos != "2");
-			
+			}
+			while(unos != "1" && unos != "2");
 		}
 	}
 
@@ -83,7 +93,7 @@ class MainClass
     public DateTime vreme;
     public string primalac;
     public string posiljalac;
-    public Poruka(string Naslov, string Telo, DateTime Vreme, string Primalac, string Posiljalac)
+    public Poruka (string Naslov, string Telo, DateTime Vreme, string Primalac, string Posiljalac)
     {
       this.naslov = Naslov;
       this.vreme = Vreme;
@@ -93,17 +103,17 @@ class MainClass
     }
     public void Upisi()
     {
-			StreamWriter IzlazniFajl = File.AppendText (this.primalac + "primljene.txt");
-      IzlazniFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
-      IzlazniFajl.WriteLine("Od: " + DeSifruj(this.posiljalac, 1));
-			IzlazniFajl.WriteLine(DeSifruj(this.telo, 1));
-      IzlazniFajl.Close();
+			StreamWriter PrimljeneFajl = File.AppendText (this.primalac + "primljene.txt");
+      PrimljeneFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+      PrimljeneFajl.WriteLine("Od: " + DeSifruj(this.posiljalac, 1));
+			PrimljeneFajl.WriteLine(DeSifruj(this.telo, 1));
+      PrimljeneFajl.Close();
 			
-			StreamWriter IzlazniFajl2 = File.AppendText (this.posiljalac + "poslate.txt");
-      IzlazniFajl2.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
-      IzlazniFajl2.WriteLine("Ka: " + DeSifruj(this.posiljalac, 1));
-      IzlazniFajl2.WriteLine(DeSifruj(this.telo, 1));
-      IzlazniFajl2.Close();
+			StreamWriter PoslateFajl = File.AppendText (this.posiljalac + "poslate.txt");
+      PoslateFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+      PoslateFajl.WriteLine("Ka: " + DeSifruj(this.posiljalac, 1));
+      PoslateFajl.WriteLine(DeSifruj(this.telo, 1));
+      PoslateFajl.Close();
     }
   }
 
@@ -125,10 +135,10 @@ class MainClass
 			password = Console.ReadLine();
 		}
 		string[] lines = System.IO.File.ReadAllLines("korisnici.txt");
-		string provera = "username:"+ DeSifruj(username,1)+"|password:"+ DeSifruj(password,1);
-		for(int i = 0; i<lines.Length; i++)
+		string provera = "username:" + DeSifruj(username, 1) + "|password:" + DeSifruj(password, 1);
+		for(int i = 0; i < lines.Length; i++)
 		{
-			if(lines[i]==provera) Ulazak(username);
+			if(lines[i] == provera) Ulazak(username);
 		}
 		Console.Clear();
 		Console.WriteLine("Greška. Ovaj nalog ne postoji u sistemu ili su uneti pogrešni podaci.");
@@ -137,9 +147,16 @@ class MainClass
 		{
 			Console.WriteLine("Probajte ponovo (1) ili se vratite na početni ekran (2).");
 			unos = Console.ReadLine();
-			if(unos == "1") UlogujSe();
-			else if(unos == "2") PocetniEkranILogovanje();
-		}while(unos != "1" && unos != "2");
+			if(unos == "1") 
+			{
+				UlogujSe();
+			}
+			else if(unos == "2") 
+			{
+				PocetniEkranILogovanje();
+			}
+		}
+		while(unos != "1" && unos != "2");
 	}
   
 	public static void NapraviNalog()
@@ -166,16 +183,22 @@ class MainClass
 			do
       {
 				Console.Clear();
-				if(File.Exists("korisnici.txt")){
+				if(File.Exists("korisnici.txt"))
+				{
 					bool PostojiLiUser = false;
 					string Provera = "username:" + DeSifruj(username, 1);
 					StreamReader podaci = new StreamReader("korisnici.txt");
 					while(!podaci.EndOfStream)
 					{
 						string probni = podaci.ReadLine();
-						if(probni.Substring(0, Provera.Length) == Provera) PostojiLiUser = true;
+						if(probni.Substring(0, Provera.Length) == Provera) 
+						{
+							PostojiLiUser = true;
+						}
 					}
-					if(PostojiLiUser){
+
+					if(PostojiLiUser)
+					{
 						Console.WriteLine("Greška. Već postoji korisnik sa istim imenom. Probajte ponovo.");
 						podaci.Close();
 						NapraviNalog();
@@ -187,17 +210,22 @@ class MainClass
 				Console.WriteLine("Lozinka: " + password);
 				Console.WriteLine("Da li potvrđujete ove podatke? (1 - da, 2 - ne)");
 				unos = Console.ReadLine();
-				if(unos == "1"){
+				if(unos == "1")
+				{
 					StreamWriter novipodaci = File.AppendText ("korisnici.txt");
 					novipodaci.WriteLine("username:{0}|password:{1}", DeSifruj(username, 1), DeSifruj(password, 1));
 					novipodaci.Close();
+
 					PocetniEkranILogovanje();
 				}
-				else if(unos == "2") {
+				else if(unos == "2") 
+				{
 					Uslov = false;
 				}
-			}while(unos != "1" && unos != "2");
-		}while(!Uslov);
+			}
+			while(unos != "1" && unos != "2");
+		}
+		while(!Uslov);
 	}
 	
 	public static string DeSifruj (string rec, int smer)
@@ -210,10 +238,14 @@ class MainClass
 		int pomak = 5;
 		char[] kodirana = new char[rec.Length];
 		if (smer == 2) pomak *= -1;
-		for (int i = 0; i < rec.Length; i++){
+
+		for (int i = 0; i < rec.Length; i++)
+		{
 			char trenutnoslovo = rec[i];
 			if(!Char.IsLetter(trenutnoslovo)) kodirana[i] = trenutnoslovo;
-			else{
+
+			else
+			{
 				char maloslovo = char.ToLower(trenutnoslovo);
 				if(trenutnoslovo.CompareTo(maloslovo) == 0) kodirana[i] = slovaMala[(26 + (slovaMala.IndexOf(rec[i]) + pomak)) % 26];
 				else kodirana[i] = slovaVelika[(26 + (slovaVelika.IndexOf(rec[i]) + pomak)) % 26];
@@ -227,7 +259,8 @@ class MainClass
   {
 		//false: samo su slova
 		//true: nisu samo slova
-		for(int i = 0; i<rec.Length; i++){
+		for(int i = 0; i<rec.Length; i++)
+		{
 			if(!char.IsLetter(rec[i])) return true;
 		}
 		return false;
@@ -240,26 +273,30 @@ class MainClass
     {
 			Console.WriteLine("Napišite mejl (1), pogledajte svoje poslate (2) ili primljene (3) mejlove ili se odjavite (4).");
 			unos = Console.ReadLine();
-			if(unos == "1"){
+			if(unos == "1")
+			{
 				PisanjeMejla(username);
 				Ulazak(username);
 			}
-			else if(unos == "2") {
+			else if(unos == "2") 
+			{
 				string NazivFajla = username + "poslate.txt";
 				PregledFajla(NazivFajla, username);
 			}
-			else if(unos == "3"){
+			else if(unos == "3")
+			{
 				string NazivFajla = username + "primljene.txt";
 				PregledFajla(NazivFajla, username);
 			}
 			else if (unos == "4") PocetniEkranILogovanje();
-		}while(unos != "1" && unos != "2" && unos != "3" && unos != "4");
+		}
+		while(unos != "1" && unos != "2" && unos != "3" && unos != "4");
 		//dopuniti metodu
 	}
 
 	public static Poruka PisanjeMejla(string korisnik)
   {
-    Console.WriteLine("Kome saljete poruku: ");
+    Console.WriteLine("Unesite korisničko ime primaoca.");
 		string primac = Console.ReadLine();
 
     bool PostojiLiUser = false;
@@ -274,11 +311,11 @@ class MainClass
       }
       if(!PostojiLiUser)
       {
-        Console.WriteLine("Korisnik ne postoji, unesite ponovo: ");
+        Console.WriteLine("Greška. Korisnik sa ovim korisničkim imenom ne postoji. Unesite korisničko ime ponovo: ");
         primac = Console.ReadLine();
       }
     }
-    Console.Write("Naslov: ");
+    Console.Write("Unesite naslov poruke: ");
     string naslov = Console.ReadLine();
     TimeZoneInfo localZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Belgrade");
     DateTime localTimeNow = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, localZone);
@@ -290,7 +327,7 @@ class MainClass
     {
       Console.Write("\n");
     }
-    Console.Write("Telo: ");
+    Console.Write("Unesite telo poruke: ");
     string telo = Console.ReadLine();
     Poruka poruka = new Poruka(naslov, telo, localTimeNow, primac, korisnik);
 		poruka.Upisi();
@@ -300,25 +337,32 @@ class MainClass
 	static void PregledFajla(string NazivFajla, string username)
   {
 		//cita samo one linije sa naslovom poruke
-		if(!File.Exists(NazivFajla)) {
+		if(!File.Exists(NazivFajla)) 
+		{
 			Console.WriteLine("Nemate primljenih ili poslatih poruka.");
 			Ulazak(username);
 		}
+
 		StreamReader fajl = new StreamReader (NazivFajla);
 		int[] BrojeviRedovaSaNaslovima = new int[100]; //ovo govori na kojim redovima su ispisane linije
 		int Brojac1 = -1; //broji indeks niza
 		int Brojac2 = -1; //broji liniju u fajlu
 		Console.Clear();
-		while(!fajl.EndOfStream){
+
+		while(!fajl.EndOfStream)
+		{
 			string[] trenutnired = fajl.ReadLine().Split('|');
 			Brojac2++;
-			if(trenutnired.Length == 3) {
+			if(trenutnired.Length == 3) 
+			{
 				Brojac1++;
+
 				Console.Write(" ");
 				if(trenutnired[0] == "0" && NazivFajla.Substring(NazivFajla.Length - 13) == "primljene.txt") Console.Write("NEPROČITANA: ");
 				Console.Write(DeSifruj(trenutnired[1],2)); //ovo je naslov;
 				Console.Write(" ({0})", trenutnired[2]);
 				Console.WriteLine();
+
 				if(Brojac1 == BrojeviRedovaSaNaslovima.Length) Array.Resize (ref BrojeviRedovaSaNaslovima, BrojeviRedovaSaNaslovima.Length + 100);
 				BrojeviRedovaSaNaslovima[Brojac1] = Brojac2; //ovo govori da se naslov npr. 0. poruke nalazi na 7. redu u fajlu, sledece na 16. redu itd.
 			}
@@ -326,7 +370,7 @@ class MainClass
 		fajl.Close();
 		Console.WriteLine("Izaberite poruku koju želite prikazati, zatim pritisnite Enter. Pritisnite Esc ako želite da se odjavite.");
 		Array.Resize(ref BrojeviRedovaSaNaslovima, Brojac1+1);
-		//OVDE IDE KURSOR I IZBOR PORUKA
+		
 		int KursorY = 0;
 		int BrojRedaPorukeKojuTrebaPrikazati = BrojeviRedovaSaNaslovima[KursorY];
 		ConsoleKeyInfo dugme;
@@ -345,7 +389,8 @@ class MainClass
 				BrojRedaPorukeKojuTrebaPrikazati = BrojeviRedovaSaNaslovima[KursorY];
 			}
 			else if (dugme.Key == ConsoleKey.Escape) PocetniEkranILogovanje();
-    }while (dugme.Key != ConsoleKey.Enter);
+    }
+		while (dugme.Key != ConsoleKey.Enter);
 		//OVDE POZIVA SE METODA ZA ISPIS SELEKTOVANE PORUKE
 		UcitajPoruku(NazivFajla, username,  BrojRedaPorukeKojuTrebaPrikazati);
 		//jer je KursorY broj reda sa naslovom poruke
@@ -353,6 +398,7 @@ class MainClass
 	public static void UcitajPoruku (string NazivFajla, string username, int BrojRedaPorukeKojuTrebaPrikazati){
 		Console.Clear();
 		StreamReader fajl = new StreamReader (NazivFajla);
+
 		int trazenRed = BrojRedaPorukeKojuTrebaPrikazati+1;
 		int i = 1;
 		string upis1;
@@ -365,20 +411,23 @@ class MainClass
 		string upis3 = fajl.ReadLine();
 		upis1 = "1" + upis1.Substring(1);
 		fajl.Close();
+
 		string[] ispis = System.IO.File.ReadAllLines(NazivFajla);
 		ispis[BrojRedaPorukeKojuTrebaPrikazati] = upis1;
 		System.IO.File.WriteAllLines(NazivFajla, ispis);
 		string[] podeljen = upis1.Split('|');
 		Console.WriteLine("Naslov: " + DeSifruj(podeljen[1],2));
 		Console.WriteLine("Posiljalac: " + DeSifruj(upis2.Substring(4), 2));
-		Console.WriteLine(DeSifruj(upis3,2));
+		Console.WriteLine(DeSifruj(upis3, 2));
+
 		Console.WriteLine("Pritisnite Enter da biste se vratili na izbor ili Esc da se odjavite.");
 		ConsoleKeyInfo dugme;
 		do{
 			dugme = Console.ReadKey();
 			if(dugme.Key == ConsoleKey.Escape) PocetniEkranILogovanje();
 			if(dugme.Key == ConsoleKey.Enter) Ulazak(username);
-		} while (dugme.Key != ConsoleKey.Escape && dugme.Key != ConsoleKey.Enter);
+		} 
+		while (dugme.Key != ConsoleKey.Escape && dugme.Key != ConsoleKey.Enter);
 	}
   public static void Main () 
   {
