@@ -122,24 +122,19 @@ class MainClass
 		Console.Clear();
 		Console.WriteLine("Upišite korisničko ime. Ono se sastoji samo iz slova engleske abecede.");
 		string username = Console.ReadLine();
-		while(username == "" || NisuSamoSlova(username))
-    {
-			Console.WriteLine("Probajte ponovo.");
-			username = Console.ReadLine();
-		}
+		username = Console.ReadLine();
+
 		Console.WriteLine("Upišite lozinku. Ona se sastoji samo iz slova engleske abecede.");
 		string password = Console.ReadLine();
-		while(password == "" || NisuSamoSlova(password))
-		{
-			Console.WriteLine("Probajte ponovo.");
-			password = Console.ReadLine();
-		}
+		password = Console.ReadLine();
+
 		string[] lines = System.IO.File.ReadAllLines("korisnici.txt");
 		string provera = "username:" + DeSifruj(username, 1) + "|password:" + DeSifruj(password, 1);
 		for(int i = 0; i < lines.Length; i++)
 		{
 			if(lines[i] == provera) Ulazak(username);
 		}
+		
 		Console.Clear();
 		Console.WriteLine("Greška. Ovaj nalog ne postoji u sistemu ili su uneti pogrešni podaci.");
 		string unos;
@@ -383,7 +378,7 @@ class MainClass
 				KursorY--;
 				BrojRedaPorukeKojuTrebaPrikazati = BrojeviRedovaSaNaslovima[KursorY];
 			}
-      else if (dugme.Key == ConsoleKey.DownArrow && KursorY != BrojeviRedovaSaNaslovima.Length - 1) 
+      else if (dugme.Key == ConsoleKey.DownArrow && KursorY != BrojeviRedovaSaNaslovima.Length - 1)
 			{
 				KursorY++;
 				BrojRedaPorukeKojuTrebaPrikazati = BrojeviRedovaSaNaslovima[KursorY];
