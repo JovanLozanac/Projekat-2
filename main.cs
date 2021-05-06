@@ -168,7 +168,8 @@ class MainClass
 			}
 			Console.WriteLine("Upišite lozinku. Ona se sastoji samo iz slova engleske abecede.");
 			string password = Console.ReadLine();
-			while(password == "" || NisuSamoSlova(password)){
+			while(password == "" || NisuSamoSlova(password))
+			{
 				Console.WriteLine("Probajte ponovo. Dozvoljena su samo slova, i to engleske abecede.");
 				password = Console.ReadLine();
 			}
