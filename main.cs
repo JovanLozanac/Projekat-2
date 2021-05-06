@@ -122,11 +122,9 @@ class MainClass
 		Console.Clear();
 		Console.WriteLine("Upišite korisničko ime. Ono se sastoji samo iz slova engleske abecede.");
 		string username = Console.ReadLine();
-		username = Console.ReadLine();
 
 		Console.WriteLine("Upišite lozinku. Ona se sastoji samo iz slova engleske abecede.");
 		string password = Console.ReadLine();
-		password = Console.ReadLine();
 
 		string[] lines = System.IO.File.ReadAllLines("korisnici.txt");
 		string provera = "username:" + DeSifruj(username, 1) + "|password:" + DeSifruj(password, 1);
@@ -165,13 +163,13 @@ class MainClass
 			string username = Console.ReadLine();
 			while(username == "" || NisuSamoSlova(username))
       {
-				Console.WriteLine("Probajte ponovo.");
+				Console.WriteLine("Probajte ponovo. Dozvoljena su samo slova, i to engleske abecede.");
 				username = Console.ReadLine();
 			}
 			Console.WriteLine("Upišite lozinku. Ona se sastoji samo iz slova engleske abecede.");
 			string password = Console.ReadLine();
 			while(password == "" || NisuSamoSlova(password)){
-				Console.WriteLine("Probajte ponovo.");
+				Console.WriteLine("Probajte ponovo. Dozvoljena su samo slova, i to engleske abecede.");
 				password = Console.ReadLine();
 			}
 			string unos;
@@ -254,9 +252,15 @@ class MainClass
   {
 		//false: samo su slova
 		//true: nisu samo slova
+		string slova = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 		for(int i = 0; i<rec.Length; i++)
 		{
-			if(!char.IsLetter(rec[i])) return true;
+			bool DaLiSeJavljaSlovo = false;
+			for(int j = 0; j<slova.Length; j++)
+			{
+				if(rec[i] == slova[j]) DaLiSeJavljaSlovo = true;
+			}
+			if(DaLiSeJavljaSlovo == false) return true;
 		}
 		return false;
 	}
