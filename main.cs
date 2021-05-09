@@ -104,13 +104,13 @@ class MainClass
     public void Upisi()
     {
 			StreamWriter PrimljeneFajl = File.AppendText (this.primalac + "primljene.txt");
-      PrimljeneFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+      PrimljeneFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", DeSifrujDatum(this.vreme));
       PrimljeneFajl.WriteLine("Od: " + DeSifruj(this.posiljalac, 1));
 			PrimljeneFajl.WriteLine(DeSifruj(this.telo, 1));
       PrimljeneFajl.Close();
 			
 			StreamWriter PoslateFajl = File.AppendText (this.posiljalac + "poslate.txt");
-      PoslateFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+      PoslateFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", DeSifrujDatum(this.vreme));
       PoslateFajl.WriteLine("Ka: " + DeSifruj(this.primalac, 1));
       PoslateFajl.WriteLine(DeSifruj(this.telo, 1));
       PoslateFajl.Close();
@@ -248,6 +248,15 @@ class MainClass
 		string NovaRec = new string(kodirana);
 		return NovaRec;
 	}
+	public static DateTime DeSifrujDatum (DateTime datum)
+	{
+		//Ova metoda od tacnog datuma vraca sifrovan,
+		//a od sifrovanog tacan.
+		DateTime zbir = new DateTime (3000, 1, 1, 1, 1, 1);
+		TimeSpan razlika = zbir - datum;
+		DateTime NoviDatum = Convert.ToDateTime(razlika.ToString());
+		return NoviDatum;
+	}
 	
 	public static bool NisuSamoSlova(string rec)
   {
@@ -360,7 +369,7 @@ class MainClass
 				Console.Write(" ");
 				if(trenutnired[0] == "0" && NazivFajla.Substring(NazivFajla.Length - 13) == "primljene.txt") Console.Write("NEPROČITANA: ");
 				Console.Write(DeSifruj(trenutnired[1],2)); //ovo je naslov;
-				Console.Write(" ({0})", trenutnired[2]);
+				Console.Write(" ({0})", DeSifrujDatum(Convert.ToDateTime(trenutnired[2])));
 				Console.WriteLine();
 
 				if(Brojac1 == BrojeviRedovaSaNaslovima.Length) Array.Resize (ref BrojeviRedovaSaNaslovima, BrojeviRedovaSaNaslovima.Length + 100);
