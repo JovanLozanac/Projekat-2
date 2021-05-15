@@ -150,13 +150,13 @@ class MainClass
     public void Upisi()
     {
 			StreamWriter PrimljeneFajl = File.AppendText (this.primalac + "primljene.txt");
-      PrimljeneFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+      PrimljeneFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0}", DeSifrujDatum(this.vreme.ToString("dd/MM/yyyy HH:mm:ss")));
       PrimljeneFajl.WriteLine("Od: " + DeSifruj(this.posiljalac, 1));
 			PrimljeneFajl.WriteLine(DeSifruj(this.telo, 1));
       PrimljeneFajl.Close();
 			
 			StreamWriter PoslateFajl = File.AppendText (this.posiljalac + "poslate.txt");
-      PoslateFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
+      PoslateFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0}", DeSifrujDatum(this.vreme.ToString("dd/MM/yyyy HH:mm:ss")));
       PoslateFajl.WriteLine("Ka: " + DeSifruj(this.primalac, 1));
       PoslateFajl.WriteLine(DeSifruj(this.telo, 1));
       PoslateFajl.Close();
@@ -296,7 +296,27 @@ class MainClass
 		string NovaRec = new string(kodirana);
 		return NovaRec;
 	}
-	
+	public static string DeSifrujDatum (string datum)
+	{
+		string noviDatum = "";
+		for(int i = 0; i<datum.Length; i++)
+		{
+			char provera = datum[i];
+			if(provera == '/' || provera == ':' || provera == ' ') noviDatum += provera;
+			else if(provera == '0') noviDatum += '5';
+			else if(provera == '5') noviDatum += '0';
+			else if(provera == '1') noviDatum += '9';
+			else if(provera == '2') noviDatum += '8';
+			else if(provera == '3') noviDatum += '7';
+			else if(provera == '4') noviDatum += '6';
+			else if(provera == '6') noviDatum += '4';
+			else if(provera == '7') noviDatum += '3';
+			else if(provera == '8') noviDatum += '2';
+			else if(provera == '9') noviDatum += '1';
+		}
+		return noviDatum;
+	}
+
 	public static bool NisuSamoSlova(string rec)
   {
 		//false: samo su slova
@@ -409,7 +429,7 @@ class MainClass
 				Console.Write(" ");
 				if(trenutnired[0] == "0" && NazivFajla.Substring(NazivFajla.Length - 13) == "primljene.txt") Console.Write("NEPROČITANA: ");
 				Console.Write(DeSifruj(trenutnired[1],2)); //ovo je naslov;
-				Console.Write(" ({0})", trenutnired[2]);
+				Console.Write(" ({0})", DeSifrujDatum (trenutnired[2]));
 				Console.WriteLine();
 
 				if(Brojac1 == BrojeviRedovaSaNaslovima.Length) Array.Resize (ref BrojeviRedovaSaNaslovima, BrojeviRedovaSaNaslovima.Length + 100);
