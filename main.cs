@@ -85,7 +85,53 @@ class MainClass
 			while(unos != "1" && unos != "2");
 		}
 	}
-
+	public static string UpisStringa()
+	{
+    string UnosniString = "";
+    ConsoleKeyInfo taster;
+    do 
+		{
+      taster = Console.ReadKey(true);
+			if ((taster.Modifiers & ConsoleModifiers.Alt) == ConsoleModifiers.Alt) 
+			{
+				continue;
+			}
+			else if ((taster.Modifiers & ConsoleModifiers.Control) == ConsoleModifiers.Control) 
+			{
+				continue;
+			}
+			else if (taster.Key == ConsoleKey.Tab)
+			{
+				continue;
+			}
+			else if (taster.Key == ConsoleKey.Backspace) 
+			{
+				if(UnosniString.Length >= 1)
+				{
+					UnosniString = UnosniString.Substring(0, UnosniString.Length - 1);
+          Console.CursorLeft = UnosniString.Length;
+					Console.Write(" ");
+					Console.CursorLeft = UnosniString.Length;	
+				}
+        continue;
+      }
+      else if (taster.Key == ConsoleKey.Escape) 
+			{
+				PocetniEkranILogovanje();
+			}
+			else if (taster.Key == ConsoleKey.Enter) 
+			{
+				Console.WriteLine();
+				return UnosniString;
+			}
+			else
+			{
+				Console.Write (taster.KeyChar);
+        UnosniString += taster.KeyChar;
+			}
+    } 
+		while (true);
+  }
   public struct Poruka
   {
     public string naslov;
@@ -104,13 +150,13 @@ class MainClass
     public void Upisi()
     {
 			StreamWriter PrimljeneFajl = File.AppendText (this.primalac + "primljene.txt");
-      PrimljeneFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", DeSifrujDatum(this.vreme));
+      PrimljeneFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
       PrimljeneFajl.WriteLine("Od: " + DeSifruj(this.posiljalac, 1));
 			PrimljeneFajl.WriteLine(DeSifruj(this.telo, 1));
       PrimljeneFajl.Close();
 			
 			StreamWriter PoslateFajl = File.AppendText (this.posiljalac + "poslate.txt");
-      PoslateFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", DeSifrujDatum(this.vreme));
+      PoslateFajl.WriteLine("0|" + DeSifruj(this.naslov, 1) + "|" + "{0:dd/MM/yyyy HH:mm:ss}", this.vreme);
       PoslateFajl.WriteLine("Ka: " + DeSifruj(this.primalac, 1));
       PoslateFajl.WriteLine(DeSifruj(this.telo, 1));
       PoslateFajl.Close();
@@ -120,11 +166,12 @@ class MainClass
 	public static void UlogujSe()
 	{
 		Console.Clear();
+		Console.WriteLine("Tokom upisa korisničkog imena i lozinke možete da pritisnete Esc da se vratite na početni ekran.");
 		Console.WriteLine("Upišite korisničko ime. Ono se sastoji samo iz slova engleske abecede.");
-		string username = Console.ReadLine();
+		string username = UpisStringa();
 
 		Console.WriteLine("Upišite lozinku. Ona se sastoji samo iz slova engleske abecede.");
-		string password = Console.ReadLine();
+		string password = UpisStringa();
 
 		string[] lines = System.IO.File.ReadAllLines("korisnici.txt");
 		string provera = "username:" + DeSifruj(username, 1) + "|password:" + DeSifruj(password, 1);
@@ -159,19 +206,20 @@ class MainClass
     {
 			Uslov = true;
 			Console.Clear();
+			Console.WriteLine("Tokom upisa korisničkog imena i lozinke možete da pritisnete Esc da se vratite na početni ekran.");
 			Console.WriteLine("Upišite korisničko ime. Ono se sastoji samo iz slova engleske abecede.");
-			string username = Console.ReadLine();
+			string username = UpisStringa();
 			while(username == "" || NisuSamoSlova(username))
       {
 				Console.WriteLine("Probajte ponovo. Dozvoljena su samo slova, i to engleske abecede.");
-				username = Console.ReadLine();
+				username = UpisStringa();
 			}
 			Console.WriteLine("Upišite lozinku. Ona se sastoji samo iz slova engleske abecede.");
-			string password = Console.ReadLine();
+			string password = UpisStringa();
 			while(password == "" || NisuSamoSlova(password))
 			{
 				Console.WriteLine("Probajte ponovo. Dozvoljena su samo slova, i to engleske abecede.");
-				password = Console.ReadLine();
+				password = UpisStringa();
 			}
 			string unos;
 			do
@@ -248,15 +296,6 @@ class MainClass
 		string NovaRec = new string(kodirana);
 		return NovaRec;
 	}
-	public static DateTime DeSifrujDatum (DateTime datum)
-	{
-		//Ova metoda od tacnog datuma vraca sifrovan,
-		//a od sifrovanog tacan.
-		DateTime zbir = new DateTime (3000, 1, 1, 1, 1, 1);
-		TimeSpan razlika = zbir - datum;
-		DateTime NoviDatum = Convert.ToDateTime(razlika.ToString());
-		return NoviDatum;
-	}
 	
 	public static bool NisuSamoSlova(string rec)
   {
@@ -305,8 +344,9 @@ class MainClass
 
 	public static Poruka PisanjeMejla(string korisnik)
   {
+		Console.WriteLine("Tokom ove procedure možete da pritisnete Esc da se vratite na početni ekran.");
     Console.WriteLine("Unesite korisničko ime primaoca.");
-		string primac = Console.ReadLine();
+		string primac = UpisStringa();
 
     bool PostojiLiUser = false;
     while(!PostojiLiUser)
@@ -321,11 +361,11 @@ class MainClass
       if(!PostojiLiUser)
       {
         Console.WriteLine("Greška. Korisnik sa ovim korisničkim imenom ne postoji. Unesite korisničko ime ponovo: ");
-        primac = Console.ReadLine();
+        primac = UpisStringa();
       }
     }
-    Console.Write("Unesite naslov poruke: ");
-    string naslov = Console.ReadLine();
+    Console.WriteLine("Unesite naslov poruke: ");
+    string naslov = UpisStringa();
     TimeZoneInfo localZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Belgrade");
     DateTime localTimeNow = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, localZone);
     for(int i = 0; i < 50; i++)
@@ -336,8 +376,8 @@ class MainClass
     {
       Console.Write("\n");
     }
-    Console.Write("Unesite telo poruke: ");
-    string telo = Console.ReadLine();
+    Console.WriteLine("Unesite telo poruke: ");
+    string telo = UpisStringa();
     Poruka poruka = new Poruka(naslov, telo, localTimeNow, primac, korisnik);
 		poruka.Upisi();
     return poruka;
@@ -369,7 +409,7 @@ class MainClass
 				Console.Write(" ");
 				if(trenutnired[0] == "0" && NazivFajla.Substring(NazivFajla.Length - 13) == "primljene.txt") Console.Write("NEPROČITANA: ");
 				Console.Write(DeSifruj(trenutnired[1],2)); //ovo je naslov;
-				Console.Write(" ({0})", DeSifrujDatum(Convert.ToDateTime(trenutnired[2])));
+				Console.Write(" ({0})", trenutnired[2]);
 				Console.WriteLine();
 
 				if(Brojac1 == BrojeviRedovaSaNaslovima.Length) Array.Resize (ref BrojeviRedovaSaNaslovima, BrojeviRedovaSaNaslovima.Length + 100);
