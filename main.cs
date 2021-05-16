@@ -205,7 +205,7 @@ class MainClass
 		do
     {
 			Uslov = true;
-			Console.Clear();
+			//Console.Clear();
 			Console.WriteLine("Tokom upisa korisničkog imena i lozinke možete da pritisnete Esc da se vratite na početni ekran.");
 			Console.WriteLine("Upišite korisničko ime. Ono se sastoji samo iz slova engleske abecede.");
 			string username = UpisStringa();
@@ -232,8 +232,8 @@ class MainClass
 					StreamReader podaci = new StreamReader("korisnici.txt");
 					while(!podaci.EndOfStream)
 					{
-						string probni = podaci.ReadLine();
-						if(probni.Substring(0, Provera.Length) == Provera) 
+						string[] probni = podaci.ReadLine().Split('|');
+						if(probni[0] == Provera) 
 						{
 							PostojiLiUser = true;
 						}
@@ -305,14 +305,14 @@ class MainClass
 			if(provera == '/' || provera == ':' || provera == ' ') noviDatum += provera;
 			else if(provera == '0') noviDatum += '5';
 			else if(provera == '5') noviDatum += '0';
-			else if(provera == '1') noviDatum += '9';
-			else if(provera == '2') noviDatum += '8';
+			else if(provera == '1') noviDatum += '6';
+			else if(provera == '2') noviDatum += '9';
 			else if(provera == '3') noviDatum += '7';
-			else if(provera == '4') noviDatum += '6';
-			else if(provera == '6') noviDatum += '4';
+			else if(provera == '4') noviDatum += '8';
+			else if(provera == '6') noviDatum += '1';
 			else if(provera == '7') noviDatum += '3';
-			else if(provera == '8') noviDatum += '2';
-			else if(provera == '9') noviDatum += '1';
+			else if(provera == '8') noviDatum += '4';
+			else if(provera == '9') noviDatum += '2';
 		}
 		return noviDatum;
 	}
@@ -422,7 +422,7 @@ class MainClass
 		{
 			string[] trenutnired = fajl.ReadLine().Split('|');
 			Brojac2++;
-			if(trenutnired.Length == 3) 
+			if(trenutnired.Length == 3 && Brojac2 % 3 == 0) 
 			{
 				Brojac1++;
 
